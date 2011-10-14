@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--	This is a example configuration file for the cpputil::logger module. 
+	Using this file you can setting the options that the parser will use.
+	The unique root element of this xml is the <LoggerConfig>. It contents
+	all the information the logger needs to operate.
+
+	The <LoggerConfig> element can have two attributes: level and region.
+	Level defines the lower log message level the logger will register.
+	Region is used to set the regional output of date and time.
+
+	The possible messages levels are:
+	(the lower level)
+	 # trace: used to log the flow of the program 
+	 # debug: used to show values that are useful during debug process.
+	 # info: used to present useful information, even in the release's phase.
+	 # warning: used to show message about probable bad uses or situation.
+	 # error: used when something goes wrong, but it's still possible continue.
+	 # fatal: something went very very wrong. Nothing can be done.
+	(the higher level)
+
+	If not specified, the logger will assume level="info".
+
+	The possible regional options implemented are:
+	 # usa: HH12:MM:SS [AM/PM] - MM/DD/YYYY
+	 # brazil: HH24:MM:SS - DD/MM/YYYY
+
+	If not specified, the logger will assume regional="usa".
+
+	Inside the <LoggerConfig>, you can find just another two elements, the
+	 <BlockedClasses> and the <Style>.
+
+	The <BlockedClasses> has no attribute, but can contain many <class> sub-element.
+	Witch <class> sub-element define a class name that will be ignored by the Logger.
+	For example:
+		<BlockedClasses>
+			<class>Class0</class>
+			<class>Class1</class>
+		</BlockedClasses>
+	
+	With the configuration above, the Logger will ignore all messages sent by
+	the classes Class0 and Class1.
+
+	The <Style> element has the attribute name. This attribute specified where
+	the logger will put the messages. There are actually three styles:
+	 # default: the messages will be presented in the OS default output.
+	 # logfile: the messages will be saved in a text file.
+	 # networkstream: the messages will be sent by network to another machine.
+
+	If not specified, the logger will assume Style="default". (A Obvious name!)
+
+	The <Style> can still have sub-elements <styleParam>. Witch style has its 
+	owns parans, but all the <styleParam> have the attribute name that defines 
+	the name of the param.
+
+	The Default Style has no param.
+
+	The Logfile Style has two params:
+	 # filename: The name of file that will be generated. (default="logfile.txt)
+	 # writemote: can assume two values: (default="overwrite")
+		# append: if the logfile already exists, the logger will append 
+			the new messages at the end of the file.
+		# overwrite: if the logfile already exists, the logger will overwrite 
+			with the new messages.
+
+	The NetWorkStream Style has three params:
+	 # protocol: The protocol that will be used. [tcp/udp] (default="udp")
+	 # ipAddress: Address of the machine that will receive the messages.
+		(default="127.0.0.1")
+	 # portNumber: the port that the host will be listen. (default="5004") 
+	 
+	 The Color Style has six params, each one representing a color of one logger level.
+	 They are:
+	 # traceColor, infoColor, debugColor, infoColor, warningColor, errorColor and fatalColor.
+	 They can assume the following values:
+	 # 	BLACK, RED, GREEN, BROWN, BLUE, MAGENTA, CYAN, GRAY, DARK_GRAY, LIGHT_RED, LIGHT_GREEN, 
+	 	YELLOW, LIGHT_BLUE, LIGHT_MAGENTA, LIGHT_CYAN, WHITE and DEFAULT 
+-->
+	 
+	
+
+<!-- Possibles region: brazil, usa -->
+<!-- Possibles level: trace, debug, info, warning, error, fatal -->
+<LoggerConfig level="info" region="brazil" >
+	<BlockedClasses>
+		<!-- Here come the classes name that you wish the logger ignore -->
+		<class>LoggableClass1</class>
+	</BlockedClasses>
+	
+	
+	<!-- Possibles style names: default, file, networkstram -->
+	<!-- Uncomment the style you wish use. Just one style can be selected. -->
+
+	<!-- Style name="default" / -->
+
+	<!-- Style name="networkstream">
+		<styleParam name="protocol">udp</styleParam>
+		<styleParam name="ipAddress">127.0.01</styleParam>
+		<styleParam name="portNumber">5004</styleParam>
+	</Style -->
+
+	<!-- Style name="logfile">
+		<styleParam name="filename">logfile.txt</styleParam>
+		<styleParam name="writemode">append</styleParam>
+	</Style -->
+	
+	<Style name="color">
+		<styleParam name="traceColor">GRAY</styleParam>
+		<styleParam name="debugColor">GRAY</styleParam>
+		<styleParam name="infoColor">DEFAULT</styleParam>
+		<styleParam name="warningColor">YELLOW</styleParam>
+		<styleParam name="errorColor">LIGHT_RED</styleParam>
+		<styleParam name="fatalColor">RED</styleParam>
+	</Style>
+</LoggerConfig>
